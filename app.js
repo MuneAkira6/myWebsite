@@ -20,6 +20,8 @@ app.all('*', function (req, res, next) {
   });
 
 app.get('/', (req, res) => {//初始化
+    //首页
+    res.sendFile( __dirname + "/view/" + "index.html" );
     //执行python文件夹里的脚本
     console.log('我正在执行py脚本，稍等');
     exec('python3 /root/实战/setence_motion_cls/bert_predict.py');
@@ -54,6 +56,6 @@ app.use('/search', (req, res) => {//这儿应该使用use
     
 })
 //3.启动服务
-app.listen(443, () => {
-    console.log('Server run at localhost:443');
+app.listen(80, () => {
+    console.log('Server run at localhost:80');
 })
