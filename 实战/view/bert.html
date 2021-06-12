@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <title>基于BERT的酒店评价情感分析系统</title>
+        <link rel="stylesheet" href="public/css/bert.css">
+        <!-- <link rel="icon" href="favicon.ico"> -->
+    </head>
+
+
+</style></head>
+    <body>
+        <div class="copyright">Powered by Vue</div>
+        <div id="app">
+            <div class="top">
+                <div class="title">基于BERT的酒店评价情感分析系统</div>
+                <div class="search-wrapper">
+                    <input type="text" placeholder="请输入要查询的酒店" v-model="keywords">
+                    <button @click="doSearch">搜索</button>
+                </div>
+                <div class="bottom"><span @click="addKeywords($event)">南京白金汉爵大酒店</span><span @click="addKeywords($event)">南京金陵饭店</span><span @click="addKeywords($event)">南京凯宾斯基酒店</span><span @click="addKeywords($event)">南京丽思卡尔顿酒店</span><span @click="addKeywords($event)">南京汤山紫清湖生态旅游温泉度假区</span></div>
+                <div class="result">{{ result }}</div>
+            </div>  
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script><!--axios-->
+        <script lang="javascript" src="public/js/bert.js" type="text/javascript"></script>
+    </body>
+</html>

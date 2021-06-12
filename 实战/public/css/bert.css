@@ -1,0 +1,186 @@
+﻿/*基本的样式文件*/
+html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img{
+    margin: 0;
+    padding: 0;
+}
+
+/*去掉边框，去掉轮廓*/
+fieldset, img, input, button{
+    border: none;
+    padding: 0;
+    margin: 0;
+    outline-style: none;
+}
+
+/*去掉列表前面的圆点*/
+ul, ol{
+    list-style: none;
+}
+
+select, input{
+    vertical-align: middle;
+}
+
+/*禁止文本框拖拽*/
+textarea{
+    resize: none;
+}
+
+img{
+    display: block;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+/*去掉超链接的下划线*/
+a{
+    color: white;
+    text-decoration:none; 
+    transition: all .2s;
+}  
+a:hover{
+    color: rgb(112, 200, 228);
+}
+
+
+h1, h2, h3, h4, h5, h6{
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 100%;/*font-size:100% 的意思是：让它们和父亲一样大 因h标签在每个浏览器大小都不一致*/
+} 
+
+/*去掉i标签和em的斜体，取消s标签的删除线*/
+s, i, em{
+    font-style: normal;
+    text-decoration: none;
+}  
+
+body{
+    font: 14px -apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,sans-serif;
+    /* color: #666; */
+}
+
+/*清除浮动*/
+.clearfix:before, .clearfix:after{
+    content: "";
+    display: table;
+}
+
+.clearfix:after{
+    clear: both;
+}
+
+.clearfix{
+    *zoom: 1; /*IE/7/6*/
+}
+
+/*公共类*/
+.w { /*版心*/
+    width: 999px;
+    margin: 0 auto;
+}
+
+.fl {
+    float: left
+}
+
+.fr {
+    float: right
+}
+
+.al {
+    text-align: left
+}
+
+.ac {
+    text-align: center
+}
+
+.ar {
+    text-align: right
+}
+
+.hide {
+    display: none
+}
+
+/*-------------------------*/
+.top{
+    width: 800px;
+    margin: 100px auto;
+}
+.top .title{
+    text-align: center;
+    font-size: 30px;
+}
+.top .search-wrapper{
+    display: flex;
+    margin-top: 20px;
+}
+.top .search-wrapper input{
+    flex: 1;
+    outline: none;
+    padding: 0;
+    padding-left: 10px;
+    margin: 0;
+    height: 35px;
+    box-sizing: border-box;
+    border: 1px solid rgb(50, 145, 200);
+    font-size: 14px;
+}
+.top .search-wrapper button{
+    padding: 0;
+    margin: 0;
+    width: 100px;
+    text-align: center;
+    height: 35px;
+    line-height: 33px;
+    color: white;
+    font-size: 14px;
+    background-color: rgb(50, 145, 200);
+    border: none;
+    border: 1px solid rgb(50, 145, 200);
+    box-sizing: border-box;
+}
+.top .bottom{
+    display: flex;
+    padding-top: 4px;
+    font-size: 12px;
+}
+.top .bottom span{
+    margin-right: 20px;
+    cursor: pointer;
+}
+.top .bottom span:hover{
+    color: rgb(50, 145, 200);
+}
+
+.copyright{
+    font-size: 12px;
+}
+
+button{
+    cursor: pointer;
+}
+.result{
+    text-align: center;
+    font-size: 20px;
+    width: 800px;
+    margin: 10px auto;
+    color: purple;
+    /* animation: pulse .5s infinite; */
+}
+/* @keyframes pulse{
+    0%{
+        -webkit-transform:scaleX(1);transform:scaleX(1)
+    }
+    50%{
+        -webkit-transform:scale3d(1.05,1.05,1.05);
+        transform:scale3d(1.05,1.05,1.05);
+    }
+    to{
+        -webkit-transform:scaleX(1);
+        transform:scaleX(1)};
+    } */
