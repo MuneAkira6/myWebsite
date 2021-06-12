@@ -52,7 +52,7 @@ app.use('/search', (req, res) => {//这儿应该使用use
         data = fs.readFileSync('./output.txt', 'utf8');
     
         res.send(data.toString());
-    }, 5000);
+    }, 10000);
     
 })
 //3.启动服务
