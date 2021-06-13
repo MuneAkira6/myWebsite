@@ -1,5 +1,6 @@
 const express = require('express');
 var exec = require('child_process').exec;
+var execSync = require('child_process').execSync;
 const fs = require('fs');
 const querystring = require('querystring');
 var url = require('url');
@@ -23,8 +24,9 @@ app.get('/', (req, res) => {//初始化
     //首页
     res.sendFile( __dirname + "/view/" + "index.html" );
     //执行python文件夹里的脚本
-    console.log('我正在执行py脚本，稍等');
-    exec('python3 /root/实战/setence_motion_cls/bert_predict.py');
+    // console.log('我正在执行py脚本，稍等');
+    // exec('killall python3');
+    // exec('python3 /root/实战/setence_motion_cls/bert_predict.py');
 })
 app.get('/bert', (req, res) => {
     res.sendFile( __dirname + "/view/" + "bert.html" );
