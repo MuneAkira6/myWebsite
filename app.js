@@ -36,6 +36,9 @@ app.get('/apple', (req, res) => {
     res.sendFile( __dirname + "/view/" + "apple.html" );
     // console.log('进来了');
 })
+app.get('/fake-apple', (req, res) => {
+    res.sendFile( __dirname + "/view/" + "fakeAppleWithIframe.html");
+})
 app.get('/fake-bilibili', (req, res) => {
     res.sendFile( __dirname + "/view/" + "fake-bilibili.html" );
 })
