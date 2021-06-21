@@ -1,0 +1,681 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>mac</title>
+    <style type="text/css">
+    /*这个搞完了赶紧写vue，不对，这个网页能用vue也赶紧用vue*/
+    /* 今晚的主要工作是代码重构 */
+        body, h1, h2, h3, h4, h5, h6, img{
+            margin: 0;
+            padding: 0;
+        }
+        a{
+            text-decoration: none;
+            color: #a8a8aa;
+        }
+        ul, li{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: block;
+        }
+        body{
+            color: #a8a8aa;
+            font-size: 12px;
+            font-weight: 350;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        /* 一些共同的属性 */
+        /* 各种大小的文本 */
+        .title{
+            font-size: 54px;
+            font-weight: 600;
+        }
+        .subtitle{
+            font-size: 25px;
+            font-weight: 450;
+        }
+        .sub-subtitle{
+            font-size: 18px;
+            font-weight: 450;
+        }
+        .main-text{
+            font-size: 20px;
+            font-weight: 400;
+        }
+        a{
+            color: rgb(61, 137, 215);
+        }
+        /* 各种可以复用的元素 */
+        .buy{/*心得：使用相对单位*/
+            width: 4.2em;
+            height: 2.2em;
+            border: none;
+            border-radius: 1.1em;
+            outline: none;
+            color: white;
+            background-color: rgb(0, 113, 227);
+            font-weight: 300;
+        }
+        .text-wrapper{
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: rgb(55, 55, 55);
+        }
+        .new{
+            color: rgb(196, 111, 59) !important;
+        }
+        .bold{
+            font-weight: 500;
+        }
+        .light{
+            font-weight: 300;
+        }
+        /* 单独组件：color switcher */
+        .color-switcher{
+            display: flex;
+            margin: 18px 0;
+        }
+        .color-switcher li{
+            border-radius: 50%;
+            
+            background-color: black;
+        }
+        .color-switcher .silver{
+            background-color: silver;
+        }
+        .color-switcher .grey{
+            background-color: grey;
+        }
+        .color-switcher .gold{
+            background-color: rgb(227, 204, 180);
+        }
+
+        .feature{
+            display: flex;
+            flex-direction: column;
+            color: rgb(55, 55, 55);
+            border-top: 1px solid rgb(230, 230, 230);
+            border-bottom: 1px solid  rgb(230, 230, 230);
+            margin: 30px 0;
+            padding: 30px 0;
+        }
+        .feature li{
+            margin: 20px 0;
+            line-height: 1.5em;
+        }
+        .feature li img{
+            margin: 3px 0;
+        }
+        .feature h2, .feature h4{
+            font-weight: 400;
+        }
+        .feature .grey{
+            color: rgb(171, 171, 171);
+        }
+        .feature .bold{
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+
+        #header_ads{
+            background-color: rgb(68, 68, 68);
+            height: 40px;
+        }
+        .w{
+            width: 960px;
+            margin: 0 auto;
+        }
+        #header_ads .w span{
+            float: right;
+            line-height: 40px;
+        }
+        #header{
+            height: 44px;
+            background-color: black;
+            line-height: 44px;
+            text-align: center;
+            font-size: 14px;
+        }
+        #header .w{
+            display: flex;
+            justify-content: space-around;
+            overflow: hidden;
+            background-color: black;
+        }
+        #header a{
+            color: white;
+        }
+
+
+        #switch_banner{
+            height: 100px;
+            padding-top: 10px;
+            /* border: 1px solid black; */
+            background-color: rgb(245, 245, 245);
+        }
+        #switch_banner .w{/*ul*/
+            width: 1200px;
+            display: flex;
+            text-align: center;
+        }
+        #switch_banner li{
+            display: flex;
+            flex-direction: column;
+            padding-left: 16px;
+            padding-right: 16px;
+            align-items: center;
+            /*字体*/
+            line-height: 1.33337;
+            font-weight: 400;
+            letter-spacing: 0;
+        }
+        #switch_banner span{
+            color: rgb(55, 55, 55);
+            margin-top: 5px;
+        }
+        #switch_banner .new{
+            font-size: 10px;
+        }
+        #switch_banner svg{
+            width: 52px;
+            height: 52px;
+        }
+
+
+        #banner_ads{
+            text-align: center;
+            color: rgb(55, 55, 55);
+            background-color: rgb(245, 245, 245);
+            line-height: 3em;
+        }
+
+
+        #imac{
+            height: 714px;
+            padding-top: 63px;
+            padding-bottom: 120px;
+            /* box-sizing: border-box; */
+            background-image: url('/public/images/imac2.png');/*---------------不用bgimage了，不好复用。重写*/
+            background-repeat: no-repeat;
+            background-position: 0 320px;
+            background-size: contain;
+            /* border: 1px solid black; */
+        }
+        #imac .text-wrapper{
+            width: 200px;
+        }
+        #imac .text-wrapper .sub-subtitle{
+            margin: 12px 0;
+        }
+        #imac .text-wrapper .buy{
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+        #imac .text-wrapper .learn-more{
+            font-size: 14px;
+        }
+        
+
+        #compare{
+            padding-top: 100px;
+            padding-bottom: 100px;
+            background-color: rgb(250, 250, 250);
+        }
+        #compare .text-wrapper{
+            width: 500px;
+        }
+        #compare .text-wrapper .title{
+            font-size: 45px;
+            font-weight: 500;
+        }
+        #compare .text-wrapper a{
+            font-size: 16px;
+            margin: 30px 0 0 0;
+        }
+        
+        #compare .compare-tab{
+            margin: 0 auto;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-bottom: 1px solid rgb(171, 171, 171);
+            width: 200px;
+            height: 44px;/*制定成一样的高度即可*/
+            box-sizing: border-box;
+        }
+        #compare .compare-tab div{
+            height: 44px;
+            line-height: 44px;
+            color: rgb(171, 171, 171);
+            box-sizing: border-box;
+        }
+        #compare .compare-tab div:first-child{
+            margin-right: 50px;
+        }
+        #compare .compare-tab div:hover{
+            color: rgb(55, 55, 55);
+            border-bottom: 1px solid rgb(55, 55, 55);
+        }
+
+        .compare-list{/*3个*/
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            width: 1080px;
+            margin: 0 auto;
+        }
+        .compare-list .compare-list-item{
+            width: 10px;/*必须要制定宽度*/
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            color: rgb(55, 55, 55);
+        }
+        .compare-list .compare-list-item>img:first-child{/*烦*/
+            /* transform: scale(.5); */
+            /* height: 100%; */
+            width: 100%;
+            transform: scale(1)!important;
+        }
+        .compare-list-item img{
+            /* transform: scale(.5);因为这里，导致占位了，妈蛋 */
+            zoom: .5;
+            /* 你乃逼，今晚给我整不自信了，艹 */
+        }
+        .compare-list-item .title{
+            font-size: 24px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        .compare-list-item .sub-subtitle{
+            font-size: 15px;
+            font-weight: 350;
+            margin-top: 10px;
+        }
+        .compare-list-item .color-switcher li{
+            width: 16px;
+            height: 16px;
+            margin: 0 5px;
+        }
+        
+        .compare-list-item .feature{
+            width: 80%;
+        }
+
+        .compare-list-item .learn-more{
+            font-size: 13px;
+        }
+        
+
+        #extra{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            /* border: 1px solid black; */
+        }
+        .card{
+            width: 10px;
+            height: 630px;
+            flex: 1;
+            text-align: center;
+            margin: 10px;
+            background-color: rgb(242, 242, 242);
+            padding-top: 70px;
+        }
+        .card .text-wrapper{
+            width: 520px;
+            margin: 0 auto;
+        }
+        .card .text-wrapper .title{
+            font-size: 46px;
+            margin: 5px 0;
+        }
+        .card .text-wrapper .sub-subtitle{
+            font-size: 24px;
+        }
+        .card .text-wrapper .buy{
+            font-size: 15px;
+            margin: 10px 0;
+        }
+        .card .text-wrapper .main-text{
+            font-size: 16px;
+            font-weight: 300;
+        }
+        .card .text-wrapper .learn-more{
+            font-size: 15px;
+            margin: 10px 0;
+        }
+
+        .accessory{/*处理背景图片的逻辑*/
+            background-image: url('/public/images/acc.jpg');
+            background-size: 140%;
+            background-repeat: no-repeat;
+            background-position: center bottom;
+            overflow: hidden;
+        }
+
+        #test{
+            /*每行固定两个，怎么做？*/
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-content: flex-start;
+            overflow: hidden;
+        }
+        #test .card{
+            overflow: hidden;
+            flex: 0 0 50%;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 10px;
+            background-clip: content-box;/*耶*/
+        }
+        #test .card .text-wrapper{
+            margin-top: 70px;
+        }
+    </style>
+    <script>
+        
+    </script>
+
+</head>
+<body>
+    <!--能复用就复用-->
+    <div id="header_ads"><div class="w"><span><广告></span></div></div>
+    <div id="header">
+        <div class="w light"><!--版心-->
+            <a href=""><span></span></a>
+            <a href=""><span>Mac</span></a>
+            <a href=""><span>iPad</span></a>
+            <a href=""><span>iPhone</span></a>
+            <a href=""><span>Watch</span></a>
+            <a href=""><span>Music</span></a>
+            <a href=""><span>技术支持</span></a>
+            <a href=""><span>🔍</span></a>
+            <a href=""><span>🛍</span></a>
+        </div>
+    </div>
+    <div id="switch_banner">
+        <!--遗留问题，如何实现宽度缩小，自动出现按钮的效果？-->
+        <ul class="w">
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <style>
+                        .a {
+                          fill: #1d1d1f;
+                        }
+                      </style>
+                    </defs>
+                    <path class="a" d="M47,48V24.5A1.352,1.352,0,0,0,45.5,23H6.5A1.337,1.337,0,0,0,5,24.5V48H0c.053.092.127.323.211.323a11.525,11.525,0,0,0,4.639,1.422c2.566.174,7.59.264,7.6.252l12.92,0,12.969,0s6.023-.081,8.59-.252a11.475,11.475,0,0,0,4.639-1.422A1.071,1.071,0,0,0,52,48ZM7,25H45V48H7Z"/>
+                </svg>
+                <span>MacBook Air</span>
+            </li>
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg"><title>macbookpro_13_large_</title><rect width="51" height="54" fill="none"/><path d="M45.99,47V24.51a1.47,1.47,0,0,0-1.45-1.49H6.49A1.47,1.47,0,0,0,5,24.47V47H0v1.43C.63,49.46,4.1,50,5.45,50H45.16c1.37,0,5.2-.54,5.84-1.57V47Zm-39-22H44V47H6.99Z" fill="#1d1d1f"/></svg>
+                <span>MacBook Pro 13英寸</span>
+            </li>
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg"><path d="m0 0h45v54h-45z" fill="none"/><path d="m42.5 14h-40a1.5 1.5 0 0 0 -1.5 1.5v26a1.5 1.5 0 0 0 1.5 1.5h14.5v7h11v-7h14.5a1.5 1.5 0 0 0 1.5-1.5v-26a1.5 1.5 0 0 0 -1.5-1.5zm.5 24h-41v-23h41z" fill="#1d1d1f"/></svg>
+                <span>MacBook Pro 16英寸</span>
+            </li>
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 54">
+                    <defs>
+                        <style>
+                            .a {
+                            fill: #1d1d1f;
+                            }
+                        </style>
+                    </defs>
+                    <title>imac_large_</title>
+                    <path class="a" d="M46.469,10H1.531A1.766,1.766,0,0,0,0,11.531L.041,41.469A1.766,1.766,0,0,0,1.572,43H21l-.89,4.119a2.808,2.808,0,0,1-2.927,2.188l-.069,0a.342.342,0,0,0-.1.669.16.16,0,0,0,.042.015V50h13.9v-.005a.123.123,0,0,0,.042-.015.34.34,0,0,0,.244-.324.345.345,0,0,0-.346-.345l-.069,0a2.81,2.81,0,0,1-2.928-2.187L27,43H46.469A1.766,1.766,0,0,0,48,41.469V11.531A1.766,1.766,0,0,0,46.469,10ZM24.946,40.829c-.03.06-.061.117-.093.166s-.066.1-.1.136-.059.066-.076.085a.564.564,0,0,1-.107.073.226.226,0,0,1-.111.026.326.326,0,0,1-.09-.016l-.109-.034-.112-.035a.418.418,0,0,0-.1-.015.357.357,0,0,0-.108.017c-.04.011-.079.023-.118.036l-.109.035a.315.315,0,0,1-.082.015.26.26,0,0,1-.088-.015.364.364,0,0,1-.09-.054.661.661,0,0,1-.1-.1A1.663,1.663,0,0,1,23.242,41a1.572,1.572,0,0,1-.107-.189,1.751,1.751,0,0,1-.083-.216A1.645,1.645,0,0,1,23,40.367a1.314,1.314,0,0,1-.021-.219.927.927,0,0,1,.048-.3.767.767,0,0,1,.134-.242.607.607,0,0,1,.2-.159.552.552,0,0,1,.246-.056.626.626,0,0,1,.232.056.562.562,0,0,0,.183.057.209.209,0,0,0,.064-.017c.032-.011.079-.027.138-.05s.1-.034.138-.042a.494.494,0,0,1,.107-.012.586.586,0,0,1,.28.071.555.555,0,0,1,.21.186.552.552,0,0,0-.208.206.6.6,0,0,0-.063.28.552.552,0,0,0,.089.307.544.544,0,0,0,.248.211A1.532,1.532,0,0,1,24.946,40.829ZM24,39.306a.472.472,0,0,1,.041-.189.656.656,0,0,1,.111-.173.6.6,0,0,1,.16-.125.458.458,0,0,1,.191-.053.081.081,0,0,1,0,.025v.027a.522.522,0,0,1-.041.2.6.6,0,0,1-.106.174.516.516,0,0,1-.151.123.349.349,0,0,1-.171.045c-.024,0-.036,0-.038-.014ZM46,37H2V12H46Z"/>
+                </svg>
+                <span>iMac 24英寸</span>
+                <span class="new">新款</span>
+            </li>
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 54">
+                    <defs>
+                        <style>
+                            .a {
+                            fill: #1d1d1f;
+                            }
+                        </style>
+                    </defs>
+                    <title>imac_large_</title>
+                    <path class="a" d="M46.469,10H1.531A1.766,1.766,0,0,0,0,11.531L.041,41.469A1.766,1.766,0,0,0,1.572,43H21l-.89,4.119a2.808,2.808,0,0,1-2.927,2.188l-.069,0a.342.342,0,0,0-.1.669.16.16,0,0,0,.042.015V50h13.9v-.005a.123.123,0,0,0,.042-.015.34.34,0,0,0,.244-.324.345.345,0,0,0-.346-.345l-.069,0a2.81,2.81,0,0,1-2.928-2.187L27,43H46.469A1.766,1.766,0,0,0,48,41.469V11.531A1.766,1.766,0,0,0,46.469,10ZM24.946,40.829c-.03.06-.061.117-.093.166s-.066.1-.1.136-.059.066-.076.085a.564.564,0,0,1-.107.073.226.226,0,0,1-.111.026.326.326,0,0,1-.09-.016l-.109-.034-.112-.035a.418.418,0,0,0-.1-.015.357.357,0,0,0-.108.017c-.04.011-.079.023-.118.036l-.109.035a.315.315,0,0,1-.082.015.26.26,0,0,1-.088-.015.364.364,0,0,1-.09-.054.661.661,0,0,1-.1-.1A1.663,1.663,0,0,1,23.242,41a1.572,1.572,0,0,1-.107-.189,1.751,1.751,0,0,1-.083-.216A1.645,1.645,0,0,1,23,40.367a1.314,1.314,0,0,1-.021-.219.927.927,0,0,1,.048-.3.767.767,0,0,1,.134-.242.607.607,0,0,1,.2-.159.552.552,0,0,1,.246-.056.626.626,0,0,1,.232.056.562.562,0,0,0,.183.057.209.209,0,0,0,.064-.017c.032-.011.079-.027.138-.05s.1-.034.138-.042a.494.494,0,0,1,.107-.012.586.586,0,0,1,.28.071.555.555,0,0,1,.21.186.552.552,0,0,0-.208.206.6.6,0,0,0-.063.28.552.552,0,0,0,.089.307.544.544,0,0,0,.248.211A1.532,1.532,0,0,1,24.946,40.829ZM24,39.306a.472.472,0,0,1,.041-.189.656.656,0,0,1,.111-.173.6.6,0,0,1,.16-.125.458.458,0,0,1,.191-.053.081.081,0,0,1,0,.025v.027a.522.522,0,0,1-.041.2.6.6,0,0,1-.106.174.516.516,0,0,1-.151.123.349.349,0,0,1-.171.045c-.024,0-.036,0-.038-.014ZM46,37H2V12H46Z"/>
+                </svg>
+                <span>iMac 27英寸</span>
+            </li>
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 54">
+                    <defs>
+                      <style>
+                        .a {
+                          fill: #1d1d1f;
+                        }
+                      </style>
+                    </defs>
+                    <title>mac_pro_large_</title>
+                    <path class="a" d="M35,47V13H33V9.25a.75.75,0,0,0-1.5,0V13H3.5V9.25a.75.75,0,0,0-1.5,0V13H0V47H1.75v1.5a.5.5,0,0,1-.5.5H0v1H5V49H3.75a.5.5,0,0,1-.5-.5V47h28.5v1.5a.5.5,0,0,1-.5.5H30v1h5V49H33.75a.5.5,0,0,1-.5-.5V47ZM17.947,24.92a1.97,1.97,0,0,1,1.33-.7,2.131,2.131,0,0,1-.47,1.47,1.691,1.691,0,0,1-1.34.65A1.937,1.937,0,0,1,17.947,24.92Zm2.59,7.33c-.38.56-.76,1.12-1.38,1.13-.6.01-.8-.36-1.48-.36s-.91.35-1.47.37c-.6.02-1.05-.6-1.43-1.16-.77-1.14-1.36-3.21-.57-4.61a2.186,2.186,0,0,1,1.86-1.15c.59-.01,1.13.39,1.48.39s.98-.47,1.73-.43a2.091,2.091,0,0,1,1.65.91,2.08,2.08,0,0,0-.97,1.75,2.02,2.02,0,0,0,1.21,1.86A6.131,6.131,0,0,1,20.537,32.25Z"/>
+                  </svg>
+                <span>Mac Pro</span>
+            </li>
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <style>
+                        .a {
+                          fill: #1d1d1f;
+                        }
+                      </style>
+                    </defs>
+                    <path class="a" d="M47,48V24.5A1.352,1.352,0,0,0,45.5,23H6.5A1.337,1.337,0,0,0,5,24.5V48H0c.053.092.127.323.211.323a11.525,11.525,0,0,0,4.639,1.422c2.566.174,7.59.264,7.6.252l12.92,0,12.969,0s6.023-.081,8.59-.252a11.475,11.475,0,0,0,4.639-1.422A1.071,1.071,0,0,0,52,48ZM7,25H45V48H7Z"/>
+                </svg>
+                <span>Mac mini</span>
+            </li>
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <style>
+                        .a {
+                          fill: #1d1d1f;
+                        }
+                      </style>
+                    </defs>
+                    <path class="a" d="M47,48V24.5A1.352,1.352,0,0,0,45.5,23H6.5A1.337,1.337,0,0,0,5,24.5V48H0c.053.092.127.323.211.323a11.525,11.525,0,0,0,4.639,1.422c2.566.174,7.59.264,7.6.252l12.92,0,12.969,0s6.023-.081,8.59-.252a11.475,11.475,0,0,0,4.639-1.422A1.071,1.071,0,0,0,52,48ZM7,25H45V48H7Z"/>
+                </svg>
+                <span>机型比较</span>
+            </li>
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <style>
+                        .a {
+                          fill: #1d1d1f;
+                        }
+                      </style>
+                    </defs>
+                    <path class="a" d="M47,48V24.5A1.352,1.352,0,0,0,45.5,23H6.5A1.337,1.337,0,0,0,5,24.5V48H0c.053.092.127.323.211.323a11.525,11.525,0,0,0,4.639,1.422c2.566.174,7.59.264,7.6.252l12.92,0,12.969,0s6.023-.081,8.59-.252a11.475,11.475,0,0,0,4.639-1.422A1.071,1.071,0,0,0,52,48ZM7,25H45V48H7Z"/>
+                </svg>
+                <span>Pro Display XDR</span>
+            </li>
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <style>
+                        .a {
+                          fill: #1d1d1f;
+                        }
+                      </style>
+                    </defs>
+                    <path class="a" d="M47,48V24.5A1.352,1.352,0,0,0,45.5,23H6.5A1.337,1.337,0,0,0,5,24.5V48H0c.053.092.127.323.211.323a11.525,11.525,0,0,0,4.639,1.422c2.566.174,7.59.264,7.6.252l12.92,0,12.969,0s6.023-.081,8.59-.252a11.475,11.475,0,0,0,4.639-1.422A1.071,1.071,0,0,0,52,48ZM7,25H45V48H7Z"/>
+                </svg>
+                <span>配件</span>
+            </li>
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <style>
+                        .a {
+                          fill: #1d1d1f;
+                        }
+                      </style>
+                    </defs>
+                    <path class="a" d="M47,48V24.5A1.352,1.352,0,0,0,45.5,23H6.5A1.337,1.337,0,0,0,5,24.5V48H0c.053.092.127.323.211.323a11.525,11.525,0,0,0,4.639,1.422c2.566.174,7.59.264,7.6.252l12.92,0,12.969,0s6.023-.081,8.59-.252a11.475,11.475,0,0,0,4.639-1.422A1.071,1.071,0,0,0,52,48ZM7,25H45V48H7Z"/>
+                </svg>
+                <span>Big Sur</span>
+            </li>
+        </ul>
+    </div>
+    <div id="banner_ads"><span>购买MacBook Air可享最高24期免息分期，仅RMB 333/月起<sup>*</sup>。</span><a href="">立即选购></a></div>
+    <div id="imac" class="big-card"><!--注意代码复用-->
+        <div class="text-wrapper">
+            <div class="new" style="font-size: 14px;">新款</div>
+            <div class="title">iMac</div>
+            <div class="subtitle">新开篇</div>
+            <div class="sub-subtitle">RMB 9999起</div>
+            <button class="buy">购买</button>
+            <a href="" class="learn-more">进一步了解></a>
+            <!-- 图片使用bgimage方式 -->
+        </div>
+    </div>
+    <div id="compare">
+        <div class="text-wrapper">
+            <div class="title">哪款 Mac 适合你？</div>
+            <a href="">比较各款 Mac 机型></a>
+        </div>
+        <div class="compare-tab"><div>笔记本电脑</div><div>台式电脑</div></div>
+        <ul class="compare-list"><!--下面这些一定要提高可复用性-->
+            <li class="compare-list-item">
+                <img src="/public/images/macbookair.png" alt="">
+                <div class="title">MacBook Air</div>
+                <div class="sub-subtitle">RMB 7999起</div>
+                <ul class="color-switcher">
+                    <li class="silver"></li>
+                    <li class="grey"></li>
+                    <li class="gold"></li>
+                </ul>
+                <button class="buy">购买</button>
+                <!--下面可以考虑用vue替换变量-->
+                <!-- 只写各个组件，然后用vue组装 -->
+                <ul class="feature">
+                    <li><h2 class="bold">13.3英寸</h2><h4>视网膜显示屏<sup>1</sup></h4></li>
+                    <li><img src="/public/images/m1.png" alt=""><h4>Apple M1芯片</h4></li>
+                    <li><img src="/public/images/neicun.png" alt=""><h4>最高可选配16GB统一内存</h4><h4 class="grey">更强大的性能和能效表现</h4></li>
+                    <li><h4>最高可选配</h4><h2 class="bold">2TB</h2><h4>存储容量<sup>2</sup></h4></li>
+                    <li><img src="/public/images/dianchi.png" alt=""><h4>电池续航最长可达18小时<sup>3</sup></h4></li>
+                    <li><img src="/public/images/facetime.png" alt=""><h4>720p FaceTime 高清摄像头</h4><h4 class="grey">搭配 M1 芯片的图像信号处理器，<br>可大幅提升拍摄表现</h4></li>
+                    <li><h2 class="bold">1.29 千克</h2><h4>重量</h4></li>
+                    <li><img src="/public/images/touchid.png" alt=""><h4>触控 ID</h4></li>
+                </ul>
+                <a href="" class="learn-more">进一步了解></a>
+            </li>
+            <li class="compare-list-item">
+                <img src="/public/images/macbookair.png" alt="">
+                <div class="title">MacBook Air</div>
+                <div class="sub-subtitle">RMB 7999起</div>
+                <ul class="color-switcher">
+                    <li class="silver"></li>
+                    <li class="grey"></li>
+                    <li class="gold"></li>
+                </ul>
+                <button class="buy">购买</button>
+                <!--下面可以考虑用vue替换变量-->
+                <!-- 只写各个组件，然后用vue组装 -->
+                <ul class="feature">
+                    <li><h2 class="bold">13.3英寸</h2><h4>视网膜显示屏<sup>1</sup></h4></li>
+                    <li><img src="/public/images/m1.png" alt=""><h4>Apple M1芯片</h4></li>
+                    <li><img src="/public/images/neicun.png" alt=""><h4>最高可选配16GB统一内存</h4><h4 class="grey">更强大的性能和能效表现</h4></li>
+                    <li><h4>最高可选配</h4><h2 class="bold">2TB</h2><h4>存储容量<sup>2</sup></h4></li>
+                    <li><img src="/public/images/dianchi.png" alt=""><h4>电池续航最长可达18小时<sup>3</sup></h4></li>
+                    <li><img src="/public/images/facetime.png" alt=""><h4>720p FaceTime 高清摄像头</h4><h4 class="grey">搭配 M1 芯片的图像信号处理器，<br>可大幅提升拍摄表现</h4></li>
+                    <li><h2 class="bold">1.29 千克</h2><h4>重量</h4></li>
+                    <li><img src="/public/images/touchid.png" alt=""><h4>触控 ID</h4></li>
+                </ul>
+                <a href="" class="learn-more">进一步了解></a>
+            </li>
+            <li class="compare-list-item">
+                <img src="/public/images/macbookair.png" alt="">
+                <div class="title">MacBook Air</div>
+                <div class="sub-subtitle">RMB 7999起</div>
+                <ul class="color-switcher">
+                    <li class="silver"></li>
+                    <li class="grey"></li>
+                    <li class="gold"></li>
+                </ul>
+                <button class="buy">购买</button>
+                <!--下面可以考虑用vue替换变量-->
+                <!-- 只写各个组件，然后用vue组装 -->
+                <ul class="feature">
+                    <li><h2 class="bold">13.3英寸</h2><h4>视网膜显示屏<sup>1</sup></h4></li>
+                    <li><img src="/public/images/m1.png" alt=""><h4>Apple M1芯片</h4></li>
+                    <li><img src="/public/images/neicun.png" alt=""><h4>最高可选配16GB统一内存</h4><h4 class="grey">更强大的性能和能效表现</h4></li>
+                    <li><h4>最高可选配</h4><h2 class="bold">2TB</h2><h4>存储容量<sup>2</sup></h4></li>
+                    <li><img src="/public/images/dianchi.png" alt=""><h4>电池续航最长可达18小时<sup>3</sup></h4></li>
+                    <li><img src="/public/images/facetime.png" alt=""><h4>720p FaceTime 高清摄像头</h4><h4 class="grey">搭配 M1 芯片的图像信号处理器，<br>可大幅提升拍摄表现</h4></li>
+                    <li><h2 class="bold">1.29 千克</h2><h4>重量</h4></li>
+                    <li><img src="/public/images/touchid.png" alt=""><h4>触控 ID</h4></li>
+                </ul>
+                <a href="" class="learn-more">进一步了解></a>
+            </li>
+        </ul>
+    </div>
+    <ul id="extra">
+        <li class="card accessory">
+            <div class="text-wrapper">
+                <div class="subtitle">配件</div>
+                <div class="title">探索 Mac 精彩配件。</div>
+                <button class="buy">选购</button>
+            </div>
+        </li>
+        <li class="card accessory">
+            <div class="text-wrapper">
+                <div class="subtitle">Apple Trade In 换购计划</div>
+                <div class="title">换购新 Mac，<br>享受折抵优惠。</div>
+                <button class="buy">选购</button>
+                <div class="main-text">你可用符合条件的电脑来获得折抵优惠，也可选择免费回收处<br>理。这样一来，你受益，地球也受益。</div>
+                <a href="" class="learn-more">了解你设备的折抵金额></a>
+            </div>
+        </li>
+    </ul>
+    <h1>以下为测试区域</h1>
+    <ul id="test">
+        <li class="card">
+            <div class="text-wrapper"></div>
+        </li>
+        <li class="card">
+            <div class="text-wrapper">
+                <div class="subtitle">连续互通</div>
+                <div class="title">在你的不同设备之间，<br>体验无间。</div>
+                <a href="" class="learn-more">进一步了解></a>
+            </div>
+        </li>
+        <li class="card">
+            <div class="text-wrapper">
+                <div class="subtitle">选 Mac 的理由</div>
+                <div class="title">超强，超好用。</div>
+                <a href="" class="learn-more">进一步了解></a>
+            </div>
+        </li>
+        <li class="card">
+            <div class="text-wrapper"></div>
+        </li>
+    </ul>
+    <script>
+        
+    </script>
+</body>
+</html>
