@@ -45,6 +45,9 @@ app.get('/fake-apple', (req, res) => {
 app.get('/fake-bilibili', (req, res) => {
     res.sendFile( __dirname + "/view/" + "fake-bilibili.html" );
 })
+app.get('/video', (req, res) => {
+    res.sendFile( __dirname + "/view/" + "video.html" );
+})
 
 app.use('/search', (req, res) => {//这儿应该使用use
     var currentUrl = req.url;
