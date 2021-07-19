@@ -48,6 +48,17 @@ app.get('/fake-bilibili', (req, res) => {
 app.get('/video', (req, res) => {
     res.sendFile( __dirname + "/view/" + "video.html" );
 })
+app.get('/test', (req, res) => {
+    var objs = [
+        {image: 'logo.png', text: 'vue'}, 
+        {image: 'google_logo.png', text: 'google'}, 
+        {image: 'test', text: 'test'}, 
+        {image: 'halo', text: 'halo'}
+    ]
+
+    res.send(objs)
+})
+
 
 app.use('/search', (req, res) => {//这儿应该使用use
     var currentUrl = req.url;
